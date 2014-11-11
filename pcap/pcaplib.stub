@@ -12,6 +12,8 @@
 (define-cproc test-pcap () ::<const-cstring>
   (result "pcap is working"))
 
+;(define-type <pcap> "ScmPCAP*")
+(define-cproc make-pcap () Scm_MakePCAP)
 
 ;; Local variables:
 ;; mode: scheme

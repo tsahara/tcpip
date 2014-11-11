@@ -1,3 +1,5 @@
 pcap/Makefile
 pcap/VERSION
 pcap/config.log
+pcap/*.o
+pcap/pcap.so
