@@ -4,7 +4,10 @@
 
 (define-module pcap
   (export test-pcap ;; dummy
-	  <pcap> make-pcap
+	  <pcap>
+	  make-pcap
+	  pcap-inject
+	  pcap-next
           )
   )
 (select-module pcap)

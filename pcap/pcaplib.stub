@@ -14,6 +14,8 @@
 
 ;(define-type <pcap> "ScmPCAP*")
 (define-cproc make-pcap () Scm_MakePCAP)
+(define-cproc pcap-next (uvec) ::<uint> Scm_pcap_next)
+(define-cproc pcap-inject (uvec) ::<int> Scm_pcap_inject)
 
 ;; Local variables:
 ;; mode: scheme
