@@ -43,6 +43,7 @@ void Scm_Init_pcap(void)
 pcap_t *gpcap;
 /* XXX */
 
+#include <err.h>
 // XXX: interface must be configurable
 ScmObj Scm_MakePCAP(void)
 {
@@ -60,11 +61,11 @@ ScmObj Scm_MakePCAP(void)
         ret = pcap_set_timeout(p->pcap, 1000);
 	if (ret != 0)
 		Scm_Error("pcap_set_timeout: %s", pcap_statustostr(ret));
-gpcap = p->pcap;
 	ret = pcap_activate(p->pcap);
 	if (ret != 0)
-		Scm_Error("pcap_activate: %d", ret);
+		Scm_Error("pcap_activate: %s", pcap_geterr(p->pcap));
 
+gpcap = p->pcap;
 	//Scm_RegisterFinalizer(SCM_OBJ(p), pcap_finalize, NULL);
 	return SCM_OBJ(p);
 }
