@@ -8,6 +8,7 @@
 	  make-pcap
 	  pcap-inject
 	  pcap-next
+	  pcap-get-selectable-fd
           )
   )
 (select-module pcap)

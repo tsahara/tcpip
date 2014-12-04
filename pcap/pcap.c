@@ -43,7 +43,6 @@ void Scm_Init_pcap(void)
 pcap_t *gpcap;
 /* XXX */
 
-#include <err.h>
 // XXX: interface must be configurable
 ScmObj Scm_MakePCAP(void)
 {
@@ -90,6 +89,11 @@ unsigned int Scm_pcap_next(ScmObj buf)
 	/* XXX: size */
 	memcpy(bufptr, cp, hdr.len);
 	return hdr.len;
+}
+
+int Scm_pcap_get_selectable_fd(void)
+{
+	return pcap_get_selectable_fd(gpcap);
 }
 
 int Scm_pcap_inject(ScmObj buf)

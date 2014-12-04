@@ -26,6 +26,7 @@ SCM_CLASS_DECL(Scm_PCAPClass);
 
 extern ScmObj test_pcap(void);
 extern ScmObj Scm_MakePCAP(void);
+extern int Scm_pcap_get_selectable_fd(void);
 extern unsigned int Scm_pcap_next(ScmObj buf);
 extern int Scm_pcap_inject(ScmObj buf);
 

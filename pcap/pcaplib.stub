@@ -16,6 +16,7 @@
 (define-cproc make-pcap () Scm_MakePCAP)
 (define-cproc pcap-next (uvec) ::<uint> Scm_pcap_next)
 (define-cproc pcap-inject (uvec) ::<int> Scm_pcap_inject)
+(define-cproc pcap-get-selectable-fd () ::<int> Scm_pcap_get_selectable_fd)
 
 ;; Local variables:
 ;; mode: scheme
