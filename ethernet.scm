@@ -1,9 +1,13 @@
-(define-module ethernet
+(define-module surt.ethernet
+  (use bpf)
+  (use gauche.selector)
+  (use surt.network-interface)
   (export <ethernet>
 	  make-ethernet
+	  ethernet-send
 	  )
   )
-(select-module ethernet)
+(select-module surt.ethernet)
 
 (define-class <ethernet> (<network-interface>)
   ((bpf                :init-value -1)
@@ -15,8 +19,8 @@
     (slot-set! ethernet 'ip-stack ip-stack)
     (slot-set! ethernet 'name "eth0")
 
-    (slot-set! ethernet 'bpf (bpf-open))
-    (slot-set! ethernet 'physical-interfacee phy)
+    (slot-set! ethernet 'bpf (bpf-open phy))
+    (slot-set! ethernet 'physical-interface phy)
 
     (selector-add! (ref ip-stack 'selector)
                    (ref ethernet 'bpf)
@@ -25,5 +29,9 @@
     ))
 
 (define (ethernet-receive-packet bpf flag)
+  (print "ethernet received")
+  )
+
+(define (ethernet-send packet)
   (print "ethernet received")
   )

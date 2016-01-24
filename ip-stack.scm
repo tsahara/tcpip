@@ -5,8 +5,8 @@
 (use gauche.selector)
 (use gauche.uvector)
 
-(load "network-interface.scm")
-(load "ethernet.scm")
+(use surt.ethernet)
+(use surt.packet)
 
 (load "ipv6.scm")
 
@@ -25,25 +25,23 @@
       (put-u8! hdr 1 code)
       (put-u16be! hdr 2 0)
       (put-u32be! hdr 4 reserved)
-
-
-
     )
-
-  (make-icmp6-packet 135 0 (ipv6-address->u8vector target))
+    (make-icmp6-packet 135 0 (ipv6-address->u8vector target))
+    ))
 
 (define (ethernet-receive uvec)
   (print :received)
   )
 
-(let ((pcap (make-pcap))
-      (buf  (make-u8vector 1600)))
-  (send-ns (string->ipv6-address "fe80::1"))
-  (format #t "~a\n" (pcap-inject (make-u8vector 64 18)))
-  (print (pcap-get-selectable-fd))
-  (while #t
-    (pcap-next buf)
-    (ethernet-receive buf)))
+(if #f
+    (let ((pcap (make-pcap))
+	  (buf  (make-u8vector 1600)))
+      (send-ns (string->ipv6-address "fe80::1"))
+      (format #t "~a\n" (pcap-inject (make-u8vector 64 18)))
+      (print (pcap-get-selectable-fd))
+      (while #t
+	(pcap-next buf)
+	(ethernet-receive buf))))
 
 (define (print-hexdump uvec len)
   (do ((base 0 (+ base 16)))
@@ -65,6 +63,7 @@
 	(print-hexdump uvec n)))))
 
 
+
 ;;; <ip-stack>
 
 (define-class <ip-stack> ()
@@ -73,11 +72,12 @@
    ))
 
 (define (make-ip-stack)
-  (make <ip-stack))
+  (make <ip-stack>))
 
 (define (ip-stack-add-ethernet ip-stack ifname)
   (let1 eth (make-ethernet ip-stack ifname)
-    (slot-push! ip-stack 'interfaces eth)))
+    (slot-push! ip-stack 'interfaces eth)
+    ))
 
 (define (main args)
   (let1 host (make-ip-stack)

@@ -1,8 +1,8 @@
-(define-module network-interface
+(define-module surt.network-interface
   (export <network-interface>
 	  )
   )
-(select-module network-interface)
+(select-module surt.network-interface)
 
 (define-class <network-interface> ()
   ((ip-stack)
