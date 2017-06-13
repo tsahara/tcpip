@@ -1,11 +1,11 @@
 (add-load-path "." :relative)
-(add-load-path "bpf" :relative)
 
 (use binary.io)
 (use gauche.selector)
 (use gauche.uvector)
 
 (use surt.ethernet)
+(use surt.network-interface)
 (use surt.packet)
 
 (load "ipv6.scm")
@@ -67,9 +67,14 @@
 ;;; <ip-stack>
 
 (define-class <ip-stack> ()
-  ((interfaces :init-value (list))
+  ((interfaces :init-form (list))
    (selector   :init-form (make <selector>))
    ))
+
+(define-method ip-stack-get-interface ((ip-stack <ip-stack>) ifname)
+  (any (lambda (netif)
+	 (string=? ifname (network-interface-name netif)))
+       (ref ip-stack 'interfaces)))
 
 (define (make-ip-stack)
   (make <ip-stack>))
@@ -77,8 +82,10 @@
 (define (ip-stack-add-ethernet ip-stack ifname)
   (let1 eth (make-ethernet ip-stack ifname)
     (slot-push! ip-stack 'interfaces eth)
-    ))
+    eth))
 
 (define (main args)
   (let1 host (make-ip-stack)
-    (ip-stack-add-ethernet host "en0")))
+    (let1 eth (ip-stack-add-ethernet host "en0")
+      (ip-stack-get-interface host "eth0")
+      )))

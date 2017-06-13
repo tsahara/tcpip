@@ -26,7 +26,7 @@
                    (ref ethernet 'bpf)
                    ethernet-receive-packet
                    '(r))
-    ))
+    ethernet))
 
 (define (ethernet-receive-packet bpf flag)
   (print "ethernet received")
