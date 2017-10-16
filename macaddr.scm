@@ -1,9 +1,9 @@
 (define-module macaddr
   (use gauche.uvector)
-  (export string->macaddr))
+  (export string->mac-address))
 
 (select-module macaddr)
 
-(define (string->macaddr str)
+(define (string->mac-address str)
   (list->u8vector (map (cut string->number <> 16)
 		       (string-split str #[-:]))))
